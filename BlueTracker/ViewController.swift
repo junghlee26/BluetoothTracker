@@ -27,10 +27,22 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
     }
     
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        guard let name = peripheral.name else { return }
+        
+        print("Peripheral Name: \(name)")
+        print("Peripheral UUID: \(peripheral.identifier.uuidString)")
+        print("Peripheral RSSI: \(RSSI)")
+        print("Ad Data: \(advertisementData)")
+        print("********************************")
+        
+    }
+    
+    
     // CBCentralManager Code
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
-            
+            central.scanForPeripherals(withServices: nil, options: nil)
         } else {
             let alertVC = UIAlertController(title: "Bluetooth is not working", message: "Make sure the bluetooth is on", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "OK", style: .default) { (action) in
